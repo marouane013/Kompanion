@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KOMPANION - Groepsgesprek</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #ff7e67;
+        --secondary-color: #ffc764;
+        --warm-bg: #2a1f2d;
+        --text-light: #ffffff;
+        --button-hover: #ffb067;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: var(--warm-bg);
+        color: var(--text-light);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 20px;
+        background: rgba(42, 31, 45, 0.9);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-button {
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: var(--button-hover);
+        transform: translateX(-5px);
+      }
+
+      .header-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: var(--secondary-color);
+      }
+
+      .video-call-container {
+        background: #000;
+        width: 90%;
+        max-width: 1200px;
+        height: 80vh;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+      }
+
+      .video {
+        flex: 1 1 50%;
+        height: 50%;
+        background: #222;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 1px solid #333;
+      }
+
+      .video img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .user-name {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: white;
+        font-size: 16px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+      }
+
+      .video-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 16px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 12px;
+        border-radius: 50px;
+        z-index: 10;
+      }
+
+      .control-button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .control-button:hover {
+        transform: scale(1.1);
+      }
+
+      .control-button.end-call {
+        background: #dc2626;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <button
+        class="back-button"
+        onclick="window.location.href='dashboard.html'"
+      >
+        ← Terug naar Dashboard
+      </button>
+      <div class="header-title">KOMPANION - Groepsgesprek</div>
+    </div>
+
+    <div class="video-call-container">
+      <div class="video">
+        <div class="user-name">Maria B.</div>
+        <img
+          src="https://st.depositphotos.com/15739628/61473/i/450/depositphotos_614735678-stock-photo-positive-elderly-retiree-woman-look.jpg"
+          alt="Maria B."
+        />
+      </div>
+      <div class="video">
+        <div class="user-name">Jan P.</div>
+        <img
+          src="https://www.linda.nl/lindanl-assets/uploads/2019/12/19133751/fotoopa-e1576759116344-600x338.jpg"
+          alt="Jan P."
+        />
+      </div>
+      <div class="video">
+        <div class="user-name">Anna V.</div>
+        <img
+          src="https://image.libelle.nl/246966276/width/2480/corrie-104-appt-en-facetimet-maar-niet-altijd-van-harte-treurig"
+          alt="Anna V."
+        />
+      </div>
+      <div class="video">
+        <div class="user-name">Marouane M</div>
+        <img src="marouane.jpg" alt="Els M." />
+      </div>
+    </div>
+
+    <div class="video-controls">
+      <button class="control-button" onclick="toggleMic()">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <button class="control-button" onclick="toggleVideo()">
+        <i class="fas fa-video"></i>
+      </button>
+      <button class="control-button end-call" onclick="endCall()">
+        <i class="fas fa-phone-slash"></i>
+      </button>
+    </div>
+
+    <script>
+      function toggleMic() {
+        console.log("Microfoon aan/uitgeschakeld.");
+      }
+
+      function toggleVideo() {
+        console.log("Video aan/uitgeschakeld.");
+      }
+
+      function endCall() {
+        if (confirm("Weet u zeker dat u het gesprek wilt beëindigen?")) {
+          window.location.href = "dashboard.html";
+        }
+      }
+    </script>
+  </body>
+</html>

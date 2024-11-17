@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KOMPANION - Video Gesprek</title>
+    <link rel="stylesheet" href="SingleCallScreen.css" />
+  </head>
+  <body>
+    <div class="header">
+      <button
+        class="back-button"
+        onclick="window.location.href='dashboard.html'"
+      >
+        ← Terug naar Dashboard
+      </button>
+      <div
+        style="color: var(--secondary-color); font-size: 22px; font-weight: 600"
+      >
+        KOMPANION Video Gesprek
+      </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <div class="video-container">
+      <img
+        src="/api/placeholder/1920/1080"
+        alt="Gesprekspartner"
+        class="main-video"
+        id="partnerVideo"
+      />
+      <img src="marouane.jpg" alt="Uzelf" class="self-video" />
+
+      <div class="user-info">
+        <h2 id="userName">Annie van Dijk</h2>
+        <p id="userInfo">72 jaar, Rotterdam</p>
+      </div>
+
+      <div class="muted-indicator">Microfoon uit</div>
+
+      <div class="random-info" id="randomInfo">
+        Willekeurig gesprek gestart!
+      </div>
+    </div>
+
+    <div class="controls">
+      <button
+        class="control-button"
+        onclick="toggleMute()"
+        style="background-color: white"
+      >
+        🎤
+      </button>
+      <button
+        class="control-button"
+        onclick="toggleVideo()"
+        style="background-color: white"
+      >
+        📹
+      </button>
+      <button class="control-button end-call" onclick="endCall()">📞</button>
+      <button class="control-button add-friend" onclick="addFriend()">
+        ➕
+      </button>
+      <button class="next-person-button" onclick="nextPerson()">
+        Nieuwe Gesprekspartner
+        <span style="font-size: 14px">(willekeurig)</span>
+      </button>
+    </div>
+
+    <div class="connecting-overlay" id="connectingOverlay">
+      <div class="spinner"></div>
+      <div class="connecting-text">
+        <h2>Even geduld...</h2>
+        <p>We zoeken een nieuwe gesprekspartner voor u</p>
+      </div>
+    </div>
+
+    <script>
+      const users = [
+        {
+          name: "Annie van Dijk",
+          age: 72,
+          city: "Rotterdam",
+          image: (src =
+            "https://image.libelle.nl/246966276/width/2480/corrie-104-appt-en-facetimet-maar-niet-altijd-van-harte-treurig"),
+          interests: "Tuinieren, Lezen",
+        },
+        {
+          name: "Gerard Bakker",
+          age: 68,
+          city: "Amsterdam",
+          image: (src =
+            "https://www.linda.nl/lindanl-assets/uploads/2019/12/19133751/fotoopa-e1576759116344-600x338.jpg"),
+          interests: "Schaken, Wandelen",
+        },
+        {
+          name: "Maria de Vries",
+          age: 75,
+          city: "Den Haag",
+          image: (src =
+            "https://st.depositphotos.com/15739628/61473/i/450/depositphotos_614735678-stock-photo-positive-elderly-retiree-woman-look.jpg"),
+          interests: "Breien, Koken",
+        },
+        {
+          name: "Jan Visser",
+          age: 70,
+          city: "Utrecht",
+          image: (src =
+            "https://image.demorgen.be/66018020/feature-crop/1200/900/zalige-beelden-vrolijke-opa-houdt-camera-verkeerd-en-filmt-hele"),
+          interests: "Vissen, Fietsen",
+        },
+        {
+          name: "Truus Jansen",
+          age: 67,
+          city: "Eindhoven",
+          image: (src =
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6cZk5ICRxqLr_zAFyo90JZIFRnQ-VfEfCUg&s"),
+          interests: "Schilderen, Muziek",
+        },
+        {
+          name: "Piet de Boer",
+          age: 73,
+          city: "Groningen",
+          image: (src =
+            "https://thumbs.dreamstime.com/b/oudere-man-pov-op-video-call-webcam-bekijk-opa-groet-tijdens-conferentiegesprek-vanuit-een-lage-hoek-met-langzame-beweging-280307785.jpg"),
+          interests: "Fotografie, Reizen",
+        },
+      ];
+
+      let currentUserIndex = 0;
+      let isMuted = false;
+      let isVideoOn = true;
+
+      function showConnectingScreen(callback) {
+        const overlay = document.getElementById("connectingOverlay");
+        overlay.style.display = "flex";
+
+        setTimeout(() => {
+          overlay.style.display = "none";
+          callback();
+        }, 2000); // Wacht 2 seconden
+      }
+
+      function updateUserDisplay() {
+        const currentUser = users[currentUserIndex];
+        document.getElementById("userName").textContent = currentUser.name;
+        document.getElementById(
+          "userInfo"
+        ).textContent = `${currentUser.age} jaar, ${currentUser.city}`;
+        document.getElementById("partnerVideo").src = currentUser.image;
+      }
+
+      function nextPerson() {
+        const overlay = document.getElementById("connectingOverlay");
+        const randomInfo = document.getElementById("randomInfo");
+        overlay.style.display = "flex";
+
+        setTimeout(() => {
+          // Kies willekeurige nieuwe gebruiker (niet dezelfde als huidige)
+          currentUserIndex = (currentUserIndex + 1) % users.length;
+
+          updateUserDisplay();
+          overlay.style.display = "none";
+
+          // Toon "Willekeurig gesprek" melding
+          randomInfo.style.display = "block";
+          setTimeout(() => {
+            randomInfo.style.display = "none";
+          }, 1000);
+        }, 1000);
+      }
+
+      function toggleMute() {
+        isMuted = !isMuted;
+        const muteIndicator = document.querySelector(".muted-indicator");
+        muteIndicator.style.display = isMuted ? "block" : "none";
+      }
+
+      function toggleVideo() {
+        isVideoOn = !isVideoOn;
+        const selfVideo = document.querySelector(".self-video");
+        selfVideo.style.opacity = isVideoOn ? "1" : "0.5";
+      }
+
+      function endCall() {
+        if (confirm("Weet u zeker dat u dit gesprek wilt beëindigen?")) {
+          window.location.href = "dashboard.html";
+        }
+      }
+
+      function showNotification(message, type) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+
+        // Reset klassen en voeg type-specifieke klasse toe
+        notification.className = `notification ${type}`;
+        notification.style.display = "block";
+
+        setTimeout(() => {
+          notification.style.display = "none";
+        }, 3000); // De melding verdwijnt na 3 seconden
+      }
+
+      function addFriend() {
+        const currentUser = users[currentUserIndex];
+        let friendsList = JSON.parse(localStorage.getItem("friends")) || [];
+
+        // Controleer of de gebruiker al in de vriendenlijst staat
+        const alreadyFriend = friendsList.some(
+          (friend) => friend.name === currentUser.name
+        );
+
+        if (alreadyFriend) {
+          showNotification(
+            `${currentUser.name} is al toegevoegd aan je vriendenlijst.`,
+            "error"
+          );
+          return;
+        }
+
+        // Voeg de huidige gebruiker toe aan de vriendenlijst
+        friendsList.push({
+          name: currentUser.name,
+          age: currentUser.age,
+          interests: currentUser.interests,
+          online: false, // Nieuwe vrienden zijn standaard offline
+        });
+
+        localStorage.setItem("friends", JSON.stringify(friendsList));
+        showNotification(
+          `${currentUser.name} is toegevoegd aan je vriendenlijst!`,
+          "success"
+        );
+      }
+      function initializeCall() {
+        // Laat het "Even geduld..." scherm zien en update daarna de gebruiker
+        showConnectingScreen(updateUserDisplay);
+      }
+
+      // Initialize met de eerste gebruiker
+      initializeCall();
+
+      // Initialize with first user
+      updateUserDisplay();
+    </script>
+  </body>
+</html>

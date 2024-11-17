@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KOMPANION - Welkom bij uw sociale netwerk</title>
+    <link rel="stylesheet" href="Login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <div class="logo-text">KOMPANION</div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm">
+        <div class="welcome-text">
+          <h1>Welkom terug!</h1>
+          <p>
+            Fijn dat u er weer bent. Log in om contact te maken met uw vrienden.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mailadres</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Bijvoorbeeld: jan.smit@email.nl"
+            required
+          />
+          <div class="help-text">
+            Vul hier het e-mailadres in waarmee u zich heeft geregistreerd
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Wachtwoord</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Uw wachtwoord"
+            required
+          />
+        </div>
+
+        <button type="button" onclick="handleLogin()">Inloggen</button>
+        <div class="error-message" id="loginError">
+          De ingevulde gegevens zijn niet juist. Probeer het nogmaals.
+        </div>
+
+        <div class="switch-form">
+          <a href="#" onclick="toggleForms()"
+            >Nog geen account? Klik hier om u aan te melden</a
+          >
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" style="display: none">
+        <div class="welcome-text">
+          <h1>Word lid van KOMPANION</h1>
+          <p>Maak nieuwe vrienden en blijf in contact met anderen</p>
+        </div>
+
+        <div class="form-group">
+          <label for="regName">Uw naam</label>
+          <input
+            type="text"
+            id="regName"
+            placeholder="Bijvoorbeeld: Jan Smit"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="regAge">Uw leeftijd</label>
+          <input
+            type="number"
+            id="regAge"
+            min="65"
+            placeholder="Bijvoorbeeld: 70"
+            required
+          />
+          <div class="help-text">
+            KOMPANION is speciaal voor mensen van 65 jaar en ouder
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regEmail">E-mailadres</label>
+          <input
+            type="email"
+            id="regEmail"
+            placeholder="Bijvoorbeeld: jan.smit@email.nl"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="regPassword">Kies een wachtwoord</label>
+          <input
+            type="password"
+            id="regPassword"
+            placeholder="Kies een veilig wachtwoord"
+            required
+          />
+          <div class="help-text">
+            Gebruik minimaal 8 tekens met hoofdletters, kleine letters en
+            cijfers
+          </div>
+        </div>
+
+        <button type="button" onclick="handleRegister()">
+          Account aanmaken
+        </button>
+
+        <div class="switch-form">
+          <a href="#" onclick="toggleForms()"
+            >Al een account? Klik hier om in te loggen</a
+          >
+        </div>
+      </form>
+
+      <!-- Hulp Sectie -->
+      <div class="help-section">
+        <p>Heeft u hulp nodig bij het inloggen?</p>
+        <button
+          class="help-button"
+          onclick="alert('U kunt ons bereiken op: 0800-KOMPANION (gratis)')"
+        >
+          Bel voor hulp
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Testaccount gegevens
+      const testAccount = {
+        email: "opa123",
+        password: "opa123",
+      };
+
+      function toggleForms() {
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+
+        if (loginForm.style.display === "none") {
+          loginForm.style.display = "block";
+          registerForm.style.display = "none";
+        } else {
+          loginForm.style.display = "none";
+          registerForm.style.display = "block";
+        }
+      }
+
+      function handleLogin() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("loginError");
+
+        if (email === testAccount.email && password === testAccount.password) {
+          errorMessage.style.display = "none";
+
+          window.location.href = "Dashboard.html";
+        } else {
+          errorMessage.style.display = "block";
+        }
+      }
+
+      function handleRegister() {
+        const name = document.getElementById("regName").value;
+        const age = document.getElementById("regAge").value;
+        const email = document.getElementById("regEmail").value;
+
+        if (age < 65) {
+          alert(
+            "KOMPANION is speciaal ontwikkeld voor mensen van 65 jaar en ouder. Helaas kunt u nog geen account aanmaken."
+          );
+          return;
+        }
+
+        alert(
+          "Gefeliciteerd! Uw account is succesvol aangemaakt. U kunt nu inloggen met uw e-mailadres en wachtwoord."
+        );
+        toggleForms();
+      }
+    </script>
+  </body>
+</html>

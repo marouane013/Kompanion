@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KOMPANION - Home</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Dashboard.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <i class="fas fa-heart"></i>
+        KOMPANION
+      </div>
+      <button class="logout-button" onclick="logout()">Log uit</button>
+    </header>
+
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Zoek nieuwe vrienden of evenementen..."
+        oninput="filterContent(event)"
+      />
+    </div>
+
+    <div class="quick-actions">
+      <button class="action-button video-call" onclick="navigateToSingleCall()">
+        <i class="fas fa-video"></i>
+        <span>Video Bellen</span>
+      </button>
+      <button class="action-button co-connect" onclick="navigateToGroupCall()">
+        <i class="fas fa-users"></i>
+        <span>Co-Connect</span>
+      </button>
+      <button class="action-button messages" onclick="alert('Berichten!')">
+        <i class="fas fa-comment"></i>
+        <span>Berichten</span>
+      </button>
+    </div>
+
+    <div class="tabs">
+      <button
+        class="tab active"
+        data-tab="friends"
+        onclick="switchTab('friends')"
+      >
+        Mijn Vrienden
+      </button>
+      <button class="tab" data-tab="events" onclick="switchTab('events')">
+        Evenementen
+      </button>
+    </div>
+
+    <div id="connections-container">
+      <!-- Dynamische inhoud wordt hier geladen -->
+    </div>
+
+    <nav class="bottom-nav">
+      <div class="nav-buttons">
+        <button class="nav-button">
+          <i class="fas fa-users"></i>
+          <span>Vrienden</span>
+        </button>
+        <button class="nav-button">
+          <i class="fas fa-video"></i>
+          <span>Video</span>
+        </button>
+        <button class="nav-button">
+          <i class="fas fa-calendar"></i>
+          <span>Activiteiten</span>
+        </button>
+        <button class="nav-button">
+          <i class="fas fa-cog"></i>
+          <span>Instellingen</span>
+        </button>
+      </div>
+    </nav>
+
+    <button onclick="clearLocalStorage()">Leeg Vriendenlijst</button>
+
+    <script src="Dashboard.js"></script>
+  </body>
+</html>
